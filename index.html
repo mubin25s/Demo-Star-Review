@@ -11,13 +11,13 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <canvas id="emotion-particles"></canvas>
     <div class="demo-container">
         <h1 class="demo-title">Interactive 3D Rating Character</h1>
         <p class="demo-subtitle">Hover or click the stars to see the character react in real-time!</p>
         
         <div class="rating-demo-card">
             <div class="form-group rating-group">
-                <label>Rate Your Experience</label>
                 <div class="rating-container">
                     <div class="star-rating" id="star-rating">
                         <i class="fa-regular fa-star" data-rating="1"></i>
@@ -26,16 +26,20 @@
                         <i class="fa-regular fa-star" data-rating="4"></i>
                         <i class="fa-regular fa-star" data-rating="5"></i>
                     </div>
-                    <div id="rating-character" class="rating-character">
-                        <img src="Characters/neutral.png" alt="Character" id="char-img">
-                    </div>
                 </div>
                 <input type="hidden" id="rating" name="rating" value="0">
             </div>
 
-            <div class="rating-info">
-                <h3>Current Rating: <span id="rating-display">Not rated</span></h3>
-                <p id="emotion-display">Waiting for your feedback...</p>
+            <div class="main-content-layout">
+                <div class="rating-info">
+                    <h3>Current Rating: <span id="rating-display">Not rated</span></h3>
+                    <p id="emotion-display">Waiting for your feedback...</p>
+                </div>
+
+                <div id="rating-character" class="rating-character">
+                    <div id="speech-bubble" class="speech-bubble">Hmm...</div>
+                    <img src="Characters/neutral.png" alt="Character" id="char-img">
+                </div>
             </div>
         </div>
     </div>

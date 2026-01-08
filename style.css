@@ -5,19 +5,33 @@
     --glass-border: rgba(255, 255, 255, 0.05);
     --text-primary: #ffffff;
     --text-secondary: #a1a1aa;
-    --accent-color: #00f2ff;
-    --accent-glow: rgba(0, 242, 255, 0.5);
+    --accent-color: #a855f7; /* Violet */
+    --accent-glow: rgba(168, 85, 247, 0.5);
+    --neon-color: #a855f7; /* Default Neon */
     --font-family: 'Inter', sans-serif;
+    --bg-glow-1: hsla(270, 30%, 5%, 1); 
+    --bg-glow-2: hsla(240, 25%, 8%, 1); 
+    --bg-glow-3: hsla(290, 20%, 6%, 1); 
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+#emotion-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.6;
 }
 
 body {
-    background-color: var(--bg-color);
+    background: radial-gradient(at 0% 0%, var(--bg-glow-1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, var(--bg-glow-2) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, var(--bg-glow-3) 0, transparent 50%),
+                radial-gradient(at 50% 100%, hsla(180,100%,5%,1) 0, transparent 50%),
+                #050505;
+    transition: background 1s ease;
     color: var(--text-primary);
     font-family: var(--font-family);
     line-height: 1.6;
@@ -26,21 +40,24 @@ body {
     align-items: center;
     justify-content: center;
     padding: 20px;
+    overflow-x: hidden;
 }
 
 .demo-container {
     max-width: 800px;
     width: 100%;
+    z-index: 1;
 }
 
 .demo-title {
     font-size: 2.5rem;
     text-align: center;
     margin-bottom: 1rem;
-    background: linear-gradient(to right, #fff, #777);
+    background: linear-gradient(to right, #fff, #a855f7, #999);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.3));
 }
 
 .demo-subtitle {
@@ -51,14 +68,55 @@ body {
 }
 
 .rating-demo-card {
-    background: var(--card-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--neon-color); /* Neon Border */
+    border-radius: 24px;
     padding: 3rem;
-    backdrop-filter: blur(15px);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    box-shadow: 
+        0 8px 32px 0 rgba(0, 0, 0, 0.8),
+        inset 0 0 32px 0 rgba(255, 255, 255, 0.02),
+        0 0 10px var(--neon-color), /* Outer Glow */
+        inset 0 0 5px var(--neon-color); /* Inner Glow */
     margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.1s ease-out, border-color 0.5s ease, box-shadow 0.5s ease;
 }
+
+.rating-demo-card::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    background: transparent;
+    border-radius: 26px;
+    z-index: -1;
+    transition: all 0.5s ease;
+    filter: blur(20px);
+    opacity: 0;
+}
+
+/* Dynamic Card & Star Glows */
+.rating-demo-card.terrified { --neon-color: #ff3333; }
+.rating-demo-card.terrified::after { background: rgba(255, 51, 51, 0.15); opacity: 1; }
+.rating-demo-card.terrified .star-rating i.fa-solid { color: #ff3333; text-shadow: 0 0 15px rgba(255, 51, 51, 0.6); }
+
+.rating-demo-card.sad { --neon-color: #8a2be2; }
+.rating-demo-card.sad::after { background: rgba(138, 43, 226, 0.15); opacity: 1; }
+.rating-demo-card.sad .star-rating i.fa-solid { color: #8a2be2; text-shadow: 0 0 15px rgba(138, 43, 226, 0.6); }
+
+.rating-demo-card.worried { --neon-color: #ff00ff; }
+.rating-demo-card.worried::after { background: rgba(255, 0, 255, 0.15); opacity: 1; }
+.rating-demo-card.worried .star-rating i.fa-solid { color: #ff00ff; text-shadow: 0 0 15px rgba(255, 0, 255, 0.6); }
+
+.rating-demo-card.happy { --neon-color: #00ff7f; }
+.rating-demo-card.happy::after { background: rgba(0, 255, 127, 0.15); opacity: 1; }
+.rating-demo-card.happy .star-rating i.fa-solid { color: #00ff7f; text-shadow: 0 0 15px rgba(0, 255, 127, 0.6); }
+
+.rating-demo-card.overjoyed { --neon-color: #ffd700; }
+.rating-demo-card.overjoyed::after { background: rgba(255, 215, 0, 0.2); opacity: 1; }
+.rating-demo-card.overjoyed .star-rating i.fa-solid { color: #ffd700; text-shadow: 0 0 15px rgba(255, 215, 0, 0.8); }
 
 .form-group {
     margin-bottom: 2rem;
@@ -80,8 +138,33 @@ body {
     justify-content: center;
     gap: 3rem;
     position: relative;
-    min-height: 120px;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
+}
+
+.main-content-layout {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 0 1rem;
+}
+
+/* Rating Info */
+.rating-info {
+    text-align: left;
+    flex: 1;
+}
+
+.rating-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--accent-color);
+}
+
+.rating-info p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    opacity: 0.8;
 }
 
 /* Star Rating */
@@ -93,55 +176,56 @@ body {
 }
 
 .star-rating i {
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.1);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
 }
 
 .star-rating i:hover {
-    color: #ffd700;
     transform: scale(1.2) rotate(10deg);
 }
 
 .star-rating i.fa-solid {
-    color: #ffd700;
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    transition: color 0.4s ease, text-shadow 0.4s ease;
 }
 
 /* Rating Character */
 .rating-character {
-    width: 120px;
-    height: 120px;
+    width: 130px;
+    height: 130px;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    animation: float 3s ease-in-out infinite;
+    z-index: 5;
+    margin-bottom: 30px; /* Shifted Up */
+    margin-right: 30px;  /* Shifted Left */
 }
 
 .rating-character img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    /* Default/Neutral - Cyan Neon Glow */
+    /* Default/Neutral - Violet Neon Glow */
     filter: 
         brightness(1.1) 
         contrast(1.1)
-        drop-shadow(0 0 5px rgba(0, 242, 255, 0.8)) 
-        drop-shadow(0 0 12px rgba(0, 242, 255, 0.6)) 
-        drop-shadow(0 0 20px rgba(0, 242, 255, 0.4));
+        drop-shadow(0 0 5px rgba(168, 85, 247, 0.8)) 
+        drop-shadow(0 0 12px rgba(168, 85, 247, 0.6)) 
+        drop-shadow(0 0 20px rgba(168, 85, 247, 0.4));
     transition: filter 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s ease;
 }
 
-/* 1 Star - Worried - Orange Neon Glow */
+/* 1 Star - Worried - Magenta Neon Glow */
 .rating-character.worried img {
     filter: 
         brightness(1.15) 
         contrast(1.1)
-        saturate(1.1)
-        drop-shadow(0 0 5px rgba(255, 165, 0, 0.9)) 
-        drop-shadow(0 0 12px rgba(255, 140, 0, 0.7)) 
-        drop-shadow(0 0 22px rgba(255, 120, 0, 0.5));
+        saturate(1.2)
+        drop-shadow(0 0 5px rgba(255, 0, 255, 0.9)) 
+        drop-shadow(0 0 12px rgba(255, 0, 200, 0.7)) 
+        drop-shadow(0 0 22px rgba(200, 0, 150, 0.5));
 }
 
 /* 2 Stars - Terrified - Red Neon Glow */
@@ -213,35 +297,89 @@ body {
 }
 
 @keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-5px); }
-    100% { transform: translateY(0px); }
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(2deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
 }
 
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-3px); }
-    75% { transform: translateX(3px); }
-}
-
-/* Rating Info */
-.rating-info {
-    text-align: center;
-    padding: 1.5rem;
-    background: rgba(0, 242, 255, 0.05);
+/* Character Speech Bubble */
+.speech-bubble {
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 12px;
-    border: 1px solid rgba(0, 242, 255, 0.2);
+    padding: 8px 16px;
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+    pointer-events: none;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    z-index: 10;
 }
 
-.rating-info h3 {
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
-    color: var(--accent-color);
+.speech-bubble::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.1) transparent transparent transparent;
 }
 
-.rating-info p {
+.rating-character:hover .speech-bubble,
+.rating-character.active .speech-bubble {
+    transform: translateX(-50%) scale(1);
+}
+
+/* Background Emotion Themes */
+body.theme-terrified { --bg-glow-1: #400; --bg-glow-2: #200; --bg-glow-3: #100; animation: screen-shake 0.1s infinite; }
+body.theme-sad { --bg-glow-1: #002; --bg-glow-2: #001; --bg-glow-3: #222; }
+body.theme-worried { --bg-glow-1: #404; --bg-glow-2: #202; --bg-glow-3: #000; }
+body.theme-happy { --bg-glow-1: #030; --bg-glow-2: #020; --bg-glow-3: #001; }
+body.theme-overjoyed { --bg-glow-1: #540; --bg-glow-2: #430; --bg-glow-3: #620; }
+
+@keyframes screen-shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    20% { transform: translate(-1px, -1px) rotate(0.5deg); }
+    40% { transform: translate(-2px, 1px) rotate(-0.5deg); }
+    60% { transform: translate(2px, 1px) rotate(0deg); }
+    80% { transform: translate(-1px, -1px) rotate(0.5deg); }
+    100% { transform: translate(1px, 1px) rotate(0deg); }
+}
+
+@keyframes jump {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-40px) scale(1.15); }
+}
+
+.rating-character.overjoyed img {
+    animation: jump 0.8s ease-in-out infinite;
+}
+
+.social-links {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.social-links a {
     color: var(--text-secondary);
-    font-size: 1rem;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    color: var(--accent-color);
+    transform: translateY(-3px);
 }
 
 /* Info Section */
