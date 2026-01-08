@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Rating Character Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="demo-container">
+        <h1 class="demo-title">Interactive 3D Rating Character</h1>
+        <p class="demo-subtitle">Hover or click the stars to see the character react in real-time!</p>
+        
+        <div class="rating-demo-card">
+            <div class="form-group rating-group">
+                <label>Rate Your Experience</label>
+                <div class="rating-container">
+                    <div class="star-rating" id="star-rating">
+                        <i class="fa-regular fa-star" data-rating="1"></i>
+                        <i class="fa-regular fa-star" data-rating="2"></i>
+                        <i class="fa-regular fa-star" data-rating="3"></i>
+                        <i class="fa-regular fa-star" data-rating="4"></i>
+                        <i class="fa-regular fa-star" data-rating="5"></i>
+                    </div>
+                    <div id="rating-character" class="rating-character">
+                        <img src="Characters/neutral.png" alt="Character" id="char-img">
+                    </div>
+                </div>
+                <input type="hidden" id="rating" name="rating" value="0">
+            </div>
+
+            <div class="rating-info">
+                <h3>Current Rating: <span id="rating-display">Not rated</span></h3>
+                <p id="emotion-display">Waiting for your feedback...</p>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>How It Works</h2>
+            <ul class="emotion-list">
+                <li><strong>1 Star:</strong> Terrified 😨 (Red neon glow)</li>
+                <li><strong>2 Stars:</strong> Worried 😟 (Orange neon glow)</li>
+                <li><strong>3 Stars:</strong> Sad 😢 (Blue/purple neon glow)</li>
+                <li><strong>4 Stars:</strong> Happy 😄 (Cyan neon glow)</li>
+                <li><strong>5 Stars:</strong> Overjoyed 🤩 (Pulsing gold neon glow)</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
