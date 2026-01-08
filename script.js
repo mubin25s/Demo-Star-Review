@@ -61,16 +61,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             switch (rating) {
                 case 1:
-                    imgSrc = 'Characters/worried.png';
-                    className = 'worried';
-                    break;
-                case 2:
                     imgSrc = 'Characters/terrified.png';
                     className = 'terrified';
                     break;
-                case 3:
+                case 2:
                     imgSrc = 'Characters/sad.png';
                     className = 'sad';
+                    break;
+                case 3:
+                    imgSrc = 'Characters/worried.png';
+                    className = 'worried';
                     break;
                 case 4:
                     imgSrc = 'Characters/happy.png';
@@ -104,9 +104,9 @@ document.addEventListener('DOMContentLoaded', () => {
         function updateDisplay(rating) {
             const emotions = {
                 0: { text: 'Not rated', emotion: 'Waiting for your feedback...' },
-                1: { text: '1 Star ⭐', emotion: 'Worried... 😟' },
-                2: { text: '2 Stars ⭐⭐', emotion: 'Terrified! 😨' },
-                3: { text: '3 Stars ⭐⭐⭐', emotion: 'Sad 😢' },
+                1: { text: '1 Star ⭐', emotion: 'Terrified! 😨' },
+                2: { text: '2 Stars ⭐⭐', emotion: 'Sad 😢' },
+                3: { text: '3 Stars ⭐⭐⭐', emotion: 'Worried... 😟' },
                 4: { text: '4 Stars ⭐⭐⭐⭐', emotion: 'Happy! 😄' },
                 5: { text: '5 Stars ⭐⭐⭐⭐⭐', emotion: 'OVERJOYED! 🤩' }
             };
